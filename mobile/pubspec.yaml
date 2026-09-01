@@ -1,0 +1,74 @@
+name: drishti_lens
+description: "DRISHTI-LENS - Offline-first Diabetic Retinopathy Screening App"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  
+  # State Management
+  flutter_bloc: ^8.1.6
+  equatable: ^2.0.5
+  
+  # Local Database
+  drift: ^2.20.0
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.1.4
+  path: ^1.9.0
+  
+  # Networking
+  dio: ^5.7.0
+  connectivity_plus: ^6.0.5
+  
+  # Security
+  flutter_secure_storage: ^9.2.2
+  
+  # Camera
+  camera: ^0.11.0+2
+  
+  # ML Inference (ONNX/TFLite - mock for MVP)
+  # onnxruntime: ^1.17.0  # Uncomment when real model available
+  # tflite_flutter: ^0.10.4  # Uncomment when real model available
+  
+  # Image Processing
+  image: ^4.2.0
+  crypto: ^3.0.5
+  
+  # UI
+  go_router: ^14.2.7
+  google_fonts: ^6.2.1
+  shimmer: ^3.0.0
+  
+  # Background Sync
+  workmanager: ^0.5.2
+  
+  # Utilities
+  uuid: ^4.4.2
+  intl: ^0.19.0
+  json_annotation: ^4.9.0
+  freezed_annotation: ^2.4.4
+  
+  # QR Code
+  qr_flutter: ^4.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.12
+  drift_dev: ^2.20.0
+  json_serializable: ^6.8.0
+  freezed: ^2.5.7
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/demo/
+    - assets/models/

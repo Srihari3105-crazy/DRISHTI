@@ -1,0 +1,4 @@
+id,name,address,latitude,longitude,district_id,state_id,phone,facility_type
+HOSP001,District Hospital Jaipur,"Civil Lines, Jaipur, Rajasthan 302001",26.9124,75.7873,DIST01,RJ,+911412222001,DH
+HOSP002,Community Health Centre Sanganer,"Sanganer Road, Jaipur, Rajasthan 302029",26.8267,75.7942,DIST01,RJ,+911412222002,CHC
+HOSP003,Primary Health Centre Chaksu,"Main Road, Chaksu, Jaipur, Rajasthan 303901",26.6033,75.9483,DIST01,RJ,+911412222003,PHC

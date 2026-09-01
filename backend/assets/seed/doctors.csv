@@ -1,0 +1,6 @@
+id,name,reg_no,specialization,hospital_id,phone,council
+DOC001,Dr. Rajesh Kumar,RJ/MED/2018/4521,Ophthalmology,HOSP001,+919876543001,Rajasthan Medical Council
+DOC002,Dr. Priya Sharma,RJ/MED/2019/7834,Ophthalmology,HOSP002,+919876543002,Rajasthan Medical Council
+DOC003,Dr. Amit Verma,RJ/MED/2017/2156,Ophthalmology,HOSP003,+919876543003,Rajasthan Medical Council
+DOC004,Dr. Sunita Meena,RJ/MED/2020/9043,Ophthalmology,HOSP001,+919876543004,Rajasthan Medical Council
+DOC005,Dr. Vikram Singh,RJ/MED/2016/5678,Ophthalmology,HOSP002,+919876543005,Rajasthan Medical Council
