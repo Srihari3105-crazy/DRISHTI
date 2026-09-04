@@ -25,6 +25,10 @@ class ScreeningEvent(Base):
     captured_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     synced_at = Column(DateTime, nullable=True)
     adjudication_status = Column(String(20), default="pending")  # pending/confirmed/downgraded/upgraded/retake
+    gradcam_path = Column(String(500), nullable=True)
+    report_path = Column(String(500), nullable=True)
+    quality_decision = Column(String(30), nullable=True)
+    enhancement_applied = Column(String(10), nullable=True)
 
     patient = relationship("Patient", backref="screenings")
     operator = relationship("User", backref="screenings_done")

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:math';
 import '../../../core/theme.dart';
 import '../../../core/constants.dart';
@@ -54,7 +55,7 @@ class _CameraScreenState extends State<CameraScreen> with TickerProviderStateMix
     return BlocListener<CaptureBloc, CaptureState>(
       listener: (context, state) {
         if (state is CaptureComplete) {
-          Navigator.of(context).pushReplacementNamed('/result/${state.gradingResult['patient_id']}');
+          context.pushReplacement('/result/${state.gradingResult['patient_id']}');
           // For now just show result overlay
         }
       },
@@ -100,7 +101,7 @@ class _CameraScreenState extends State<CameraScreen> with TickerProviderStateMix
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: (isPassing ? AppTheme.success : AppTheme.danger).withOpacity(0.3),
+                    color: (isPassing ? AppTheme.success : AppTheme.danger).withValues(alpha: 0.3),
                     blurRadius: 20,
                     spreadRadius: 5,
                   ),
@@ -113,12 +114,12 @@ class _CameraScreenState extends State<CameraScreen> with TickerProviderStateMix
                     Icon(
                       Icons.camera_alt,
                       size: 48,
-                      color: Colors.white.withOpacity(0.5),
+                      color: Colors.white.withValues(alpha: 0.5),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       'Point at fundus',
-                      style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 14),
+                      style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 14),
                     ),
                   ],
                 ),
@@ -169,7 +170,7 @@ class _CameraScreenState extends State<CameraScreen> with TickerProviderStateMix
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
-                colors: [Colors.black.withOpacity(0.9), Colors.transparent],
+                colors: [Colors.black.withValues(alpha: 0.9), Colors.transparent],
               ),
             ),
             child: Column(
@@ -239,7 +240,7 @@ class _CameraScreenState extends State<CameraScreen> with TickerProviderStateMix
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 4),
-                      color: isPassing ? AppTheme.success.withOpacity(0.3) : Colors.white12,
+                      color: isPassing ? AppTheme.success.withValues(alpha: 0.3) : Colors.white12,
                     ),
                     child: const Icon(Icons.camera, color: Colors.white, size: 32),
                   ),
@@ -311,9 +312,9 @@ class _CameraScreenState extends State<CameraScreen> with TickerProviderStateMix
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             decoration: BoxDecoration(
-              color: severityColor.withOpacity(0.15),
+              color: severityColor.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: severityColor.withOpacity(0.3)),
+              border: Border.all(color: severityColor.withValues(alpha: 0.3)),
             ),
             child: Text(
               severityLabel,
@@ -369,8 +370,8 @@ class _CameraScreenState extends State<CameraScreen> with TickerProviderStateMix
                       final color = AppTheme.lesionColors[lesion] ?? AppTheme.textMuted;
                       return Chip(
                         label: Text(AppConstants.lesionLabels[lesion] ?? lesion, style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w600)),
-                        backgroundColor: color.withOpacity(0.1),
-                        side: BorderSide(color: color.withOpacity(0.3)),
+                        backgroundColor: color.withValues(alpha: 0.1),
+                        side: BorderSide(color: color.withValues(alpha: 0.3)),
                       );
                     }).toList(),
                   ),

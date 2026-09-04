@@ -123,7 +123,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Header */}
         <header style={{
           padding: '16px 28px',
-          borderBottom: '1px solid var(--surface-border)',
           background: 'rgba(255, 255, 255, 0.9)',
           backdropFilter: 'blur(12px)',
           borderBottom: '1px solid #dee2e6',

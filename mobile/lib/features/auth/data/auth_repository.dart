@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dio/dio.dart';
-import '../../core/constants.dart';
+import '../../../core/constants.dart';
 
 class AuthRepository {
   final _storage = const FlutterSecureStorage();

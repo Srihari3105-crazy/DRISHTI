@@ -10,19 +10,31 @@ Runs entirely on a laptop + 2 Android phones. No cloud dependency.
 ## System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    DRISHTI-LENS MVP                         │
-│                                                             │
-│  📱 Flutter App         🖥️ FastAPI Backend    🌐 Next.js     │
-│  ─────────────────      ──────────────────   ───────────── │
-│  Camera → Quality Gate  PostgreSQL + NATS    Officer Portal │
-│  On-device Grading      JWT Auth + RBAC      Doctor Queue   │
-│  Offline SQLite Queue   Referral State FSM   HMIS Export    │
-│  Background Sync        Mock Notifications   Lesion Overlay │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                             DRISHTI-LENS ECOSYSTEM                               │
+│                                                                                  │
+│  📱 Flutter App         🖥️ FastAPI AI Hub       🌐 Next.js Portal   🔬 MATLAB & Simulink │
+│  ─────────────────      ──────────────────    ─────────────────   ──────────────────── │
+│  Camera Quality Gate    Real AI Pipeline (Py) Doctor Adjudication Medical Image Proc   │
+│  Offline Drift DB       ICDR 0-4 + Grad-CAM   <30s Review Timer   Discrete-event Model │
+│  Bi-directional Sync    NPCBVI HMIS Form 1    Explainability View Telemedicine Workload│
+└──────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Tech Stack:** Flutter + ONNX Runtime Mobile · FastAPI · PostgreSQL · Next.js · Tailwind · Docker
+**Tech Stack:** Flutter · FastAPI · PyTorch · OpenCV · Next.js · MATLAB R2023b+ · Simulink · SQLite/PostgreSQL
+
+---
+
+## SIH 2026 Compliance Documentation
+- 📋 [SIH 2026 Compliance Matrix](docs/SIH_2026_COMPLIANCE_MATRIX.md)
+- 🔬 [MATLAB Medical Image Processing Pipeline](docs/MATLAB_PIPELINE.md)
+- 📊 [Simulink Telemedicine Workflow Simulation](docs/SIMULINK_MODEL.md)
+- 🏥 [Clinical Validation Framework & Benchmarks](docs/CLINICAL_VALIDATION.md)
+- 📁 [Clinical Datasets & Data Preparation Guide](docs/DATASETS.md)
+- 🧠 [Explainability & Grad-CAM Verification](docs/EXPLAINABILITY.md)
+- 🚀 [Production Deployment Guide](docs/DEPLOYMENT.md)
+- ⚠️ [Known Limitations & Boundary Conditions](docs/LIMITATIONS.md)
+- 🏆 [Final SIH 2026 Audit Report](docs/FINAL_SIH_AUDIT.md)
 
 ---
 

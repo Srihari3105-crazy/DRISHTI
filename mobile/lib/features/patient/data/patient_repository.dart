@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-import '../../../core/constants.dart';
 import '../../auth/data/auth_repository.dart';
 
 class PatientRepository {

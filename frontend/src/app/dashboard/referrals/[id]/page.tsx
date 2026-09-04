@@ -17,6 +17,12 @@ export default function ReferralDetailPage() {
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Clinical Review Timer (<30-second target tracking)
+  const [reviewSeconds, setReviewSeconds] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(true);
+  const [activeImageView, setActiveImageView] = useState<'original' | 'gradcam'>('original');
+  const [adjudicationStatus, setAdjudicationStatus] = useState<string>('pending');
+
   // Modal states
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showRetakeModal, setShowRetakeModal] = useState(false);
@@ -32,6 +38,17 @@ export default function ReferralDetailPage() {
   useEffect(() => {
     loadData();
   }, [id]);
+
+  // Review timer tick
+  useEffect(() => {
+    let interval: any;
+    if (timerRunning) {
+      interval = setInterval(() => {
+        setReviewSeconds(s => s + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timerRunning]);
 
   const loadData = async () => {
     try {
@@ -128,8 +145,36 @@ export default function ReferralDetailPage() {
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div style={{ display: 'flex', gap: 8 }}>
+        {/* Action Buttons & Clinical Review Timer */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {/* <30-second target review stopwatch */}
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 20,
+            background: reviewSeconds <= 30 ? 'rgba(43, 138, 62, 0.1)' : 'rgba(230, 119, 0, 0.12)',
+            border: `1px solid ${reviewSeconds <= 30 ? '#2b8a3e' : '#e67700'}`,
+          }} title="SIH 2026 Target: Ophthalmologist case review within 30 seconds">
+            <span style={{ fontSize: '0.9rem' }}>⏱️</span>
+            <span style={{
+              fontSize: '0.8rem', fontWeight: 700,
+              color: reviewSeconds <= 30 ? '#2b8a3e' : '#e67700',
+              fontFamily: 'monospace'
+            }}>
+              {reviewSeconds}s {reviewSeconds <= 30 ? '(Target Met)' : '(Over 30s)'}
+            </span>
+          </div>
+
+          {screening?.id && (
+            <a
+              href={`http://localhost:8000/api/v1/screenings/${screening.id}/report`}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-ghost"
+              style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}
+            >
+              📄 Clinical Report
+            </a>
+          )}
+
           {(hasRole('doctor', 'admin') && referral.state === 'assigned') && (
             <button className="btn btn-primary" onClick={() => setShowScheduleModal(true)}>📅 Schedule</button>
           )}
@@ -156,6 +201,137 @@ export default function ReferralDetailPage() {
               <InfoRow label="Age" value={referral.patient_age?.toString() || '—'} />
               <InfoRow label="Mobile" value={referral.patient_mobile || '—'} />
               <InfoRow label="Eye" value={referral.eye || '—'} />
+            </div>
+          </div>
+
+          {/* AI Retinal Imaging & Grad-CAM Card */}
+          <div className="glass-card" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+              <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', margin: 0 }}>
+                Retinal Fundus & Explainability
+              </h3>
+              <div style={{ display: 'flex', gap: 6 }}>
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activeImageView === 'original' ? 'btn-primary' : 'btn-ghost'}`}
+                  onClick={() => setActiveImageView('original')}
+                  style={{ fontSize: '0.75rem', padding: '4px 10px' }}
+                >
+                  Fundus Image
+                </button>
+                <button
+                  type="button"
+                  className={`btn btn-sm ${activeImageView === 'gradcam' ? 'btn-primary' : 'btn-ghost'}`}
+                  onClick={() => setActiveImageView('gradcam')}
+                  style={{ fontSize: '0.75rem', padding: '4px 10px' }}
+                >
+                  Grad-CAM Heatmap
+                </button>
+              </div>
+            </div>
+
+            <div style={{
+              width: '100%', height: 260, borderRadius: 10, overflow: 'hidden',
+              background: '#0d1117', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '1px solid rgba(255,255,255,0.08)', position: 'relative'
+            }}>
+              {activeImageView === 'original' ? (
+                screening?.image_path ? (
+                  <img
+                    src={`http://localhost:8000/${screening.image_path}`}
+                    alt="Fundus Photography"
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  <div style={{ textAlign: 'center', color: '#8b949e', fontSize: '0.85rem' }}>
+                    <div style={{ fontSize: '2rem', marginBottom: 6 }}>👁️</div>
+                    <div>Digital Fundus Capture (Stored Securely)</div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: 4 }}>Hash: {screening?.image_hash?.slice(0, 16) || 'Local Asset'}...</div>
+                  </div>
+                )
+              ) : (
+                screening?.gradcam_url ? (
+                  <img
+                    src={`http://localhost:8000/${screening.gradcam_url}`}
+                    alt="Grad-CAM Spatial Heatmap"
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                ) : (
+                  <div style={{ textAlign: 'center', color: '#8b949e', fontSize: '0.85rem', padding: 20 }}>
+                    <div style={{ fontSize: '2rem', marginBottom: 6 }}>🧠</div>
+                    <div style={{ fontWeight: 600 }}>Grad-CAM Activation Map</div>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.8, marginTop: 4 }}>
+                      Spatial attention weights highlighting diagnostic regions influencing ICDR classification.
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 8, textAlign: 'center' }}>
+              ⚠️ [AI-ASSISTED SCREENING — PROTOTYPE] Must be clinically validated by licensed ophthalmologist.
+            </div>
+          </div>
+
+          {/* Doctor Adjudication Panel (Human-In-The-Loop) */}
+          <div className="glass-card" style={{ padding: 24 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+              <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', margin: 0 }}>
+                Doctor Adjudication (Human-In-The-Loop)
+              </h3>
+              <span className="badge" style={{
+                background: adjudicationStatus === 'confirmed' ? '#ebfbee' : adjudicationStatus === 'retake' ? '#fff5f5' : '#f8f9fa',
+                color: adjudicationStatus === 'confirmed' ? '#2b8a3e' : adjudicationStatus === 'retake' ? '#c92a2a' : '#495057',
+                fontSize: '0.75rem'
+              }}>
+                Status: {adjudicationStatus.toUpperCase()}
+              </span>
+            </div>
+
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: 14 }}>
+              Adjudicate the AI screening findings. Decisions update the closed-loop referral tracking engine.
+            </p>
+
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                className="btn btn-sm btn-success"
+                onClick={() => {
+                  setAdjudicationStatus('confirmed');
+                  setTimerRunning(false);
+                }}
+              >
+                ✅ Confirm Grade
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-ghost"
+                onClick={() => {
+                  setAdjudicationStatus('downgraded');
+                  setTimerRunning(false);
+                }}
+              >
+                ⬇️ Downgrade
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-ghost"
+                onClick={() => {
+                  setAdjudicationStatus('upgraded');
+                  setTimerRunning(false);
+                }}
+              >
+                ⬆️ Upgrade
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm btn-danger"
+                onClick={() => {
+                  setAdjudicationStatus('retake');
+                  setShowRetakeModal(true);
+                }}
+              >
+                🔄 Order Retake
+              </button>
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:dio/dio.dart';
 import '../data/auth_repository.dart';
 
 // Events
@@ -62,14 +63,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final user = await _repo.login(event.phone, event.password);
       emit(AuthAuthenticated(
-        userId: user['id'],
-        userName: user['name'],
-        userRole: user['role'],
+        userId: user['id']?.toString() ?? '',
+        userName: user['name']?.toString() ?? '',
+        userRole: user['role']?.toString() ?? '',
       ));
     } catch (e) {
       String message = 'Login failed';
-      if (e is Exception) {
+      if (e is DioException && e.response?.data is Map && e.response?.data['detail'] != null) {
+        message = e.response!.data['detail'].toString();
+      } else if (e is Exception) {
         message = e.toString().replaceFirst('Exception: ', '');
+      } else {
+        message = e.toString();
       }
       emit(AuthError(message));
     }

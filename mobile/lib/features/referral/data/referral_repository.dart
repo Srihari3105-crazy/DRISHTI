@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import '../../auth/data/auth_repository.dart';
 
 class ReferralRepository {

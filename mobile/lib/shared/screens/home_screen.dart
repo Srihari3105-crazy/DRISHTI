@@ -12,7 +12,6 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         final userName = state is AuthAuthenticated ? state.userName : 'Operator';
-        final userRole = state is AuthAuthenticated ? state.userRole : '';
 
         return Scaffold(
           body: SafeArea(

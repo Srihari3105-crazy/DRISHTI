@@ -90,9 +90,9 @@ class _PatientListScreenState extends State<PatientListScreen> {
                         child: ListTile(
                           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           leading: CircleAvatar(
-                            backgroundColor: AppTheme.primary.withOpacity(0.15),
+                            backgroundColor: AppTheme.primary.withValues(alpha: 0.15),
                             child: Text(
-                              (p['name'] as String).substring(0, 1).toUpperCase(),
+                              ((p['name'] as String?)?.isNotEmpty == true ? (p['name'] as String).substring(0, 1).toUpperCase() : '?'),
                               style: const TextStyle(color: AppTheme.primary, fontWeight: FontWeight.w700),
                             ),
                           ),
@@ -108,7 +108,7 @@ class _PatientListScreenState extends State<PatientListScreen> {
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                                   decoration: BoxDecoration(
-                                    color: AppTheme.success.withOpacity(0.15),
+                                    color: AppTheme.success.withValues(alpha: 0.15),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: const Text('✓', style: TextStyle(color: AppTheme.success, fontSize: 12)),

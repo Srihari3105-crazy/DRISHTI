@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/theme.dart';
 import '../../core/constants.dart';
-import '../auth/presentation/auth_bloc.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -82,7 +80,7 @@ class SettingsScreen extends StatelessWidget {
 
           // Demo Mode Toggle
           Card(
-            color: AppTheme.primary.withOpacity(0.08),
+            color: AppTheme.primary.withValues(alpha: 0.08),
             child: ListTile(
               leading: const Icon(Icons.science, color: AppTheme.primary),
               title: const Text('Demo Mode', style: TextStyle(fontWeight: FontWeight.w600)),
@@ -90,7 +88,7 @@ class SettingsScreen extends StatelessWidget {
               trailing: Switch(
                 value: true,
                 onChanged: (v) {},
-                activeColor: AppTheme.primary,
+                activeTrackColor: AppTheme.primary,
               ),
             ),
           ),

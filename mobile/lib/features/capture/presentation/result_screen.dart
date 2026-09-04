@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme.dart';
-import '../../../core/constants.dart';
 
 class ResultScreen extends StatelessWidget {
   final String screeningId;
@@ -37,7 +37,7 @@ class ResultScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
+                  onPressed: () => context.go('/home'),
                   child: const Text('Back to Home'),
                 ),
               ),

@@ -56,6 +56,11 @@ export interface ScreeningEvent {
   captured_at: string;
   synced_at?: string;
   adjudication_status: string;
+  gradcam_url?: string;
+  report_url?: string;
+  quality_decision?: string;
+  enhancement_applied?: boolean;
+  calibrated_confidence?: number;
 }
 
 export interface RuleTraceItem {

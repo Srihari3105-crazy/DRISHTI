@@ -66,3 +66,6 @@ pgdata/
 
 # Logs
 *.log
+
+# Nested extraction folder
+DRISHTI-main/

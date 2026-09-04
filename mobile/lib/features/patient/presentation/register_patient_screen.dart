@@ -52,7 +52,7 @@ class _RegisterPatientScreenState extends State<RegisterPatientScreen> {
                     const SizedBox(width: 16),
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        value: _gender,
+                        initialValue: _gender,
                         decoration: const InputDecoration(labelText: 'Gender', prefixIcon: Icon(Icons.wc, color: AppTheme.textMuted)),
                         items: const [
                           DropdownMenuItem(value: 'M', child: Text('Male')),
@@ -68,7 +68,7 @@ class _RegisterPatientScreenState extends State<RegisterPatientScreen> {
                 _buildField('Mobile', _mobile, Icons.phone, keyboardType: TextInputType.phone, validator: (v) => v!.length < 13 ? 'Enter valid +91 number' : null),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
-                  value: _diabetesType,
+                  initialValue: _diabetesType,
                   decoration: const InputDecoration(labelText: 'Diabetes Type', prefixIcon: Icon(Icons.medical_information, color: AppTheme.textMuted)),
                   items: const [
                     DropdownMenuItem(value: null, child: Text('Unknown')),
